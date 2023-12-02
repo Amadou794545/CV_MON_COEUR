@@ -1,4 +1,5 @@
 <?php
+session_start();
 include 'CV.php';
 include 'Interest.php';
 include 'Contact.php';
@@ -9,16 +10,24 @@ include 'Hardskill.php';
 include 'Softskill.php';
 include '..\Web\CreateCv.html';
 
-//$_SESSION['Name'] = "amadou";
 
 //cv
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validation des données
+    //cv
     $titre = filter_input(INPUT_POST, 'titre', FILTER_SANITIZE_SPECIAL_CHARS);
     $nom = filter_input(INPUT_POST, 'nom', FILTER_SANITIZE_SPECIAL_CHARS);
     $prenom = filter_input(INPUT_POST, 'prenom', FILTER_SANITIZE_SPECIAL_CHARS);
     $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_SPECIAL_CHARS);
+    //contact
+    $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+    $phone = filter_input(INPUT_POST, 'telephone', FILTER_SANITIZE_NUMBER_INT);
+    $adress = filter_input(INPUT_POST, 'adresse', FILTER_SANITIZE_SPECIAL_CHARS);
+    //education
+    $school = filter_input(INPUT_POST, 'school', FILTER_SANITIZE_SPECIAL_CHARS);
+    $formation = filter_input(INPUT_POST, 'formation', FILTER_SANITIZE_SPECIAL_CHARS);
+    $date = filter_input(INPUT_POST, 'date', FILTER_SANITIZE_NUMBER_INT);
 
     // Vérification du nombre de mots dans la description
     if (str_word_count($description) > 100) {
@@ -31,9 +40,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $cv->setName($nom);
         $cv->setFirstname($prenom);
         $cv->setDescription($description);
+        // Instanciation de la classe Contact
+        $contact = new Contact();
+        $contact->setEmail($email);
+        $contact->setPhone($phone);
+        $contact->setAdress($adress);
+        // Instanciation de la classe Education
+        $education = new Education($school, $formation, $date);
+
+
 
         if ($_POST['token'] === 'votre_jeton_CSRF') {
-            header("Location: pdf.php?titre=$titre&nom=$nom&prenom=$prenom&description=$description");
+           //cv
+            $_SESSION['Titre'] = $titre;
+            $_SESSION['Name'] = $nom;
+            $_SESSION['prenom'] = $prenom;
+            $_SESSION['description'] = $description;
+            //contact
+            $_SESSION['email'] = $email;
+            $_SESSION['phone'] = $phone;
+            $_SESSION['adress'] = $adress;
+            //education
+            $_SESSION['school'] = $school;
+            $_SESSION['formation'] = $formation;
+            $_SESSION['date'] = $date;
+            header("Location: pdf.php?");
 
 
 

@@ -3,7 +3,7 @@
 class Contact
 {
     private string $email;
-    private string $phone;
+    private int $phone;
     private string $adress;
 
     public function __construct(){}
@@ -29,10 +29,11 @@ class Contact
         return $this->phone;
     }
     //utiliser setPhone pour modifier la valeur de $phone
-    public function setPhone(string $phone): void
+    public function setPhone(int $phone):void
     {
         $this->phone = $phone;
-    }
+          }
+
     //adress
     public function getAdress(): string
     {
