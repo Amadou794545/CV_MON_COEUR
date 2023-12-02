@@ -42,17 +42,8 @@ class CV
     }
     public function setDescription(string $description): void
     {
-       if(strlen($description) < 1000){
         $this->description = $description;
     }
-    else{
-        echo "Description too long";
-    }
-    }
-
-
-
-
     //display
     public function displayCV(): string
     {

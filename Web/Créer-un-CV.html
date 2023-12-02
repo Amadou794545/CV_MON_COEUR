@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Créer un CV</title>
+</head>
+<body>
+<form action="/Classes/main.php" method="post">
+    <h1>Créer un CV</h1>
+    <h3>cv</h3>
+    <label for="titre">Titre</label>
+    <input type="text" name="titre" placeholder="Titre" id="titre"><br>
+    <label for="nom">Nom</label>
+    <input type="text" name="nom" placeholder="Nom" id="nom"><br>
+    <label for="prenom">Prénom</label>
+    <input type="text" name="prenom" placeholder="Prénom" id="prenom"><br>
+    <label for="description">description</label>
+    <input  type="hidden" name="token" value="votre_jeton_CSRF">
+    <input type="text" name="description" placeholder="Description" id="description"><br>
+    <h3>Education</h3>
+
+
+    <button type="submit">Créer</button>
+
+</form>
+
+
+</body>
+</html>
