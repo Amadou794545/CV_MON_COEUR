@@ -7,7 +7,9 @@ include 'Experience.php';
 include 'Competence.php';
 include 'Hardskill.php';
 include 'Softskill.php';
-include 'C:\Users\amado\PhpstormProjects\CV_mon_coeur\Web\Créer-un-CV.html';
+include '..\Web\CreateCv.html';
+
+//$_SESSION['Name'] = "amadou";
 
 //cv
 
@@ -31,14 +33,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $cv->setDescription($description);
 
         if ($_POST['token'] === 'votre_jeton_CSRF') {
-            header("Location: afficher_cv.php?titre=$titre&nom=$nom&prenom=$prenom&description=$description");
-            exit();
-          //  echo "\n" . "Données sécurisées : Titre: $titre, Nom: $nom, Prénom : $prenom, Description : $description";
+            header("Location: pdf.php?titre=$titre&nom=$nom&prenom=$prenom&description=$description");
+
+
 
         } else {
             echo 'Le jeton CSRF est invalide';
+            }
         }
-    }
 
 }
 
@@ -101,7 +103,6 @@ $competencesArray[] = $competence2;
 echo "\nCompétences :\n";
 foreach ($competencesArray as $competence) {
     echo $competence->displayCompetence() . "\n";
-
 }
 
 
