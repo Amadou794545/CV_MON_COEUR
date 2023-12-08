@@ -4,9 +4,8 @@ class Interest
 {
     private string $interest;
 
-    public function __construct(string $interest)
+    public function __construct()
     {
-        $this->interest = $interest;
     }
 
     public function getInterest(): string

@@ -1,13 +1,12 @@
 <?php
 session_start();
 include 'CV.php';
-include 'Interest.php';
+include 'C:\laragon\www\CV_mon_coeur\Classes\Interest.php';
 include 'Contact.php';
 include 'Education.php';
 include 'Experience.php';
-include 'Competence.php';
-include 'Hardskill.php';
-include 'Softskill.php';
+include 'Hard skill.php';
+include 'Soft skill.php';
 include '..\Web\CreateCv.html';
 
 
@@ -27,13 +26,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //education
     $school = filter_input(INPUT_POST, 'school', FILTER_SANITIZE_SPECIAL_CHARS);
     $formation = filter_input(INPUT_POST, 'formation', FILTER_SANITIZE_SPECIAL_CHARS);
-    $date = filter_input(INPUT_POST, 'date', FILTER_SANITIZE_NUMBER_INT);
+    $dateEducation = filter_input(INPUT_POST, 'dateEducation', FILTER_SANITIZE_NUMBER_INT);
+    //interest
+    $interet = filter_input(INPUT_POST, 'interest', FILTER_SANITIZE_SPECIAL_CHARS);
+    //experience
+    $name_entreprise = filter_input(INPUT_POST, 'name_entreprise', FILTER_SANITIZE_SPECIAL_CHARS);
+    $dateExperience = filter_input(INPUT_POST, 'dateExperience', FILTER_SANITIZE_NUMBER_INT);
+    $descriptionExperience = filter_input(INPUT_POST, 'descriptionExperience', FILTER_SANITIZE_SPECIAL_CHARS);
 
-    // Vérification du nombre de mots dans la description
-    if (str_word_count($description) > 100) {
-        // La description a plus de 100 mots, renvoyer un message d'erreur
-        echo "Erreur : La description ne doit pas dépasser 100 mots.";
-    } else {
+
+
+
         // Instanciation de la classe CV
         $cv = new CV();
         $cv->setTitle($titre);
@@ -46,7 +49,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $contact->setPhone($phone);
         $contact->setAdress($adress);
         // Instanciation de la classe Education
-        $education = new Education($school, $formation, $date);
+        $education = new Education($school, $formation, $dateEducation);
+
+        // Instanciation de la classe Experience
+        $experience = new Experience($name_entreprise, $dateExperience, $descriptionExperience );
+// Instanciation de la classe Interest
+    $interest = new Interest();
+    $interest->setInterest($interet);
 
 
 
@@ -63,7 +72,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             //education
             $_SESSION['school'] = $school;
             $_SESSION['formation'] = $formation;
-            $_SESSION['date'] = $date;
+            $_SESSION['dateEducation'] = $dateEducation;
+
+            //experience
+            $_SESSION['name_entreprise'] = $name_entreprise;
+            $_SESSION['dateExperience'] = $dateExperience;
+            $_SESSION['descriptionExperience'] = $descriptionExperience;
+            //interest
+            $_SESSION['interest'] = $interest;
             header("Location: pdf.php?");
 
 
@@ -71,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             echo 'Le jeton CSRF est invalide';
             }
-        }
+
 
 }
 
@@ -135,6 +151,4 @@ echo "\nCompétences :\n";
 foreach ($competencesArray as $competence) {
     echo $competence->displayCompetence() . "\n";
 }
-
-
 */
