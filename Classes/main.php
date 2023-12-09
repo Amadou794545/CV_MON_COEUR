@@ -1,13 +1,16 @@
 <?php
+
 session_start();
 include 'CV.php';
-include 'C:\laragon\www\CV_mon_coeur\Classes\Interest.php';
+include 'Interest.php';
 include 'Contact.php';
 include 'Education.php';
 include 'Experience.php';
 include 'Hard skill.php';
 include 'Soft skill.php';
 include '..\Web\CreateCv.html';
+require_once '..\Data\inc_connexion.php';
+
 
 
 //cv
@@ -64,8 +67,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Instanciation de la classe Softskill
         $softskill = new Softskill($softskill);
 
+    insertCV($mysqli,$titre,$nom,$prenom,$description,$email,$phone,$adress,$school,$formation,$dateEducation,$name_entreprise,$dateExperience,$descriptionExperience,$interest->getInterest(),$hardskill->getHardskill(),$softskill->getSoftskill());
 
 
+        // Génération du jeton CSRF
         if ($_POST['token'] === 'votre_jeton_CSRF') {
            //cv
             $_SESSION['Titre'] = $titre;
@@ -100,66 +105,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
 
+
 }
 
-
-/*
-  //interest
-echo "Interest \n";
-$interest = new Interest("I like to play football, watch movies and read books.");
-echo $interest->displayInterest();
-    //Contact
-    echo "contact \n";
-    $contact = new Contact();
-    $contact->setEmail("amadou@gmail.com");
-    $contact->setPhone("0487654321");
-    $contact->setAdress("Rue de la paix, 1");
-    echo $contact->displayContact();
-
-    //Education
-echo "\n";
-    echo "Education \n";
-// Créez un tableau pour stocker les instances d'éducation
-$educationsArray = [];
-
-// Ajoutez la première instance d'éducation au tableau
-$education1 = new Education('Nom de l\'école', 'Nom de la formation', 2012);
-$educationsArray[] = $education1;
-
-// Ajoutez la deuxième instance d'éducation au tableau
-$education2 = new Education('Becode', 'Développeur Web', 2021);
-$educationsArray[] = $education2;
-
-// Affichez les éducations du tableau
-foreach ($educationsArray as $education) {
-    echo $education->displayEducation() . "\n";
+function insertCV($mysqli,$title,$name,$lastname,$bio,$email,$phone,$adress,$nameschool,$formation,$year,$society,$dateSociety,$description,$interest,$hardskill,$softskill){
+    $sql="INSERT INTO user_cv (title, name, lastname, description, email, phone, adress, nameschool, formation, year, society, dateSociety, descriptionSociety, interest, hardskill, softskill) 
+VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    $stmt=$mysqli->prepare($sql);
+$stmt->bind_param("sssssisssisissss",$title,$name,$lastname,$bio,$email,$phone,$adress,$nameschool,$formation,$year,$society,$dateSociety,$description,$interest,$hardskill,$softskill);
+if ($stmt->execute()){
+    echo "Data inserted successfully";
+}else{
+    echo $stmt->error;
 }
-echo "\n";
-
-    //Experience
-    echo "Experience \n";
-// Créez un tableau pour stocker les instances d'expérience
-$experiencesArray = [];
-$experience1 = new Experience('Nom de l\'entreprise', 2101, 'Description');
-$experiencesArray[] = $experience1;
-$experience2 = new Experience('Becode', 2021, 'Data Analyst');
-$experiencesArray[] = $experience2;
-foreach ($experiencesArray as $experience) {
-    echo $experience->displayExperience() . "\n";
-}
-
-//competence
-$competencesArray = [];
-
-$competence1 = new Hardskill('PHP');
-$competencesArray[] = $competence1;
-
-$competence2 = new Softskill('Rigoureux');
-$competencesArray[] = $competence2;
-
-// Affichez les compétences du tableau
-echo "\nCompétences :\n";
-foreach ($competencesArray as $competence) {
-    echo $competence->displayCompetence() . "\n";
-}
-*/
+    }

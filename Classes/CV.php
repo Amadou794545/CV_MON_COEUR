@@ -51,6 +51,27 @@ class CV
     }
 
 
+    public function getAllCV($mysqli)
+    {
+
+        $result = $mysqli->query('Select ID,Title From user_cv');
+
+        while ($row = $result->fetch_assoc()){
+        $id = $row['ID'];
+        $title = $row['Title'];
+        echo "
+<div >
+<h2>$title</h2>
+<a href='../Web/CV/Download.php?id=$id&title=$title'>Telecharger</a><br>
+<a href='../Web/CV/Modify.php?id=$id&title=$title'>Modifier</a><br>
+<a href='../Web/CV/Delete.php?id=$id&title=$title'>Supprimer</a><br>
+</div>
+";
+        }
+
+        return $row;
+    }
+
 
 
 }
