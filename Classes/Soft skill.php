@@ -13,4 +13,9 @@ class Softskill
         return $this->Name;
     }
 
+    public function getSoftskill(): string
+    {
+        return $this->Name;
+    }
+
 }

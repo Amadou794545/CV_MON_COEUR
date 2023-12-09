@@ -27,13 +27,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $school = filter_input(INPUT_POST, 'school', FILTER_SANITIZE_SPECIAL_CHARS);
     $formation = filter_input(INPUT_POST, 'formation', FILTER_SANITIZE_SPECIAL_CHARS);
     $dateEducation = filter_input(INPUT_POST, 'dateEducation', FILTER_SANITIZE_NUMBER_INT);
-    //interest
-    $interet = filter_input(INPUT_POST, 'interest', FILTER_SANITIZE_SPECIAL_CHARS);
     //experience
     $name_entreprise = filter_input(INPUT_POST, 'name_entreprise', FILTER_SANITIZE_SPECIAL_CHARS);
     $dateExperience = filter_input(INPUT_POST, 'dateExperience', FILTER_SANITIZE_NUMBER_INT);
     $descriptionExperience = filter_input(INPUT_POST, 'descriptionExperience', FILTER_SANITIZE_SPECIAL_CHARS);
-
+    //interest
+    $interet = filter_input(INPUT_POST, 'interest', FILTER_SANITIZE_SPECIAL_CHARS);
+    //hardskill
+    $hardskill = filter_input(INPUT_POST, 'hardskill', FILTER_SANITIZE_SPECIAL_CHARS);
+    //softskill
+    $softskill = filter_input(INPUT_POST, 'softskill', FILTER_SANITIZE_SPECIAL_CHARS);
 
 
 
@@ -53,9 +56,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Instanciation de la classe Experience
         $experience = new Experience($name_entreprise, $dateExperience, $descriptionExperience );
-// Instanciation de la classe Interest
-    $interest = new Interest();
-    $interest->setInterest($interet);
+        // Instanciation de la classe Interest
+        $interest = new Interest();
+        $interest->setInterest($interet);
+        // Instanciation de la classe Hardskill
+        $hardskill = new Hardskill($hardskill);
+        // Instanciation de la classe Softskill
+        $softskill = new Softskill($softskill);
 
 
 
@@ -79,7 +86,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['dateExperience'] = $dateExperience;
             $_SESSION['descriptionExperience'] = $descriptionExperience;
             //interest
-            $_SESSION['interest'] = $interest;
+            $_SESSION['interest'] = $interest->getInterest();
+            //hardskill
+            $_SESSION['hardskill'] = $hardskill->getHardskill();
+            //softskill
+            $_SESSION['softskill'] = $softskill->getSoftskill();
             header("Location: pdf.php?");
 
 

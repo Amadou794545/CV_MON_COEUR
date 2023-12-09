@@ -13,5 +13,10 @@ class Hardskill
     return $this->Name;
    }
 
+    public function getHardskill(): string
+    {
+        return $this->Name;
+    }
+
 }
 ?>

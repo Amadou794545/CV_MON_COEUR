@@ -10,7 +10,8 @@ function createCV($title,$name,$surname,$description,
                   $email,$phone,$adress,
                   $school,$formation,$dateEducation,
                   $entreprise,$dateExperience,$descriptionExperience,
-                  $interest)  {
+                  $interest,
+                  $hardskill,$softskill)  {
 
     $pdf= new FPDF();
     $pdf->AddPage();
@@ -34,6 +35,10 @@ function createCV($title,$name,$surname,$description,
     $pdf->Cell(40,10,'Description: '.$descriptionExperience,  0,1);
     //Interest
     $pdf->Cell(40,10,'Interest: '.$interest,  0,1);
+    //Hardskill
+    $pdf->Cell(40,10,'Hardskill: '.$hardskill,  0,1);
+    //Softskill
+    $pdf->Cell(40,10,'Softskill: '.$softskill,  0,1);
 
 
     $pdf->Output();
@@ -44,7 +49,8 @@ createCV($_SESSION['Titre'],$_SESSION['Name'],$_SESSION['prenom'],$_SESSION['des
     $_SESSION['email'], $_SESSION['phone'],$_SESSION['adress'],
     $_SESSION['school'],$_SESSION['formation'],$_SESSION['dateEducation'],
     $_SESSION['name_entreprise'],$_SESSION['dateExperience'],$_SESSION['descriptionExperience'],
-    $_SESSION['interest']);
+    $_SESSION['interest'],
+    $_SESSION['hardskill'],$_SESSION['softskill']);
 
 
 ?>
